@@ -1,0 +1,162 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+header {
+    margin: 0;
+    padding: 0;
+}  
+
+body {
+    line-height: 1.5;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+nav {
+    overflow: hidden;
+    margin: 0;
+    background-color: #333;
+    display: flex;
+}
+
+nav a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 16px;
+    text-align: center;
+    color: #f2f2f2;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+#reg_form, #update_form, #markForm, #markUpdateForm {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+    padding: 20px;
+}
+
+#reg_form .form_fields, #update_form .form_fields {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], #gender, #state, #districts, #cities, #languages, #profile, #pname {
+    padding: 8px 10px 8px 10px;
+}
+
+input[type="radio"] {
+    display: inline;
+    width: fit-content;
+    margin: 3px;
+}
+
+.rlabel {
+    margin: 5px;
+    padding: 5px;
+}
+
+#form_submit {
+    width: 100%;
+}
+
+input[type="submit"], .update, .delete {
+    padding: 10px 20px;
+    background-color: rgb(86, 88, 87);
+    color: white;
+    float: right;
+    margin: 10px;
+}
+
+#list{
+    width: 100%;
+    overflow-x: auto;
+    margin: 20px;
+    padding: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+}
+  
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #DDD;
+}
+
+tr:hover {background-color: #D6EEEE;}
+
+.update:hover, input[type="submit"]:hover{
+    background-color: rgb(43, 212, 156);
+    cursor: pointer;
+}
+
+.delete:hover{
+    background-color: red;
+    cursor: pointer;
+}
+
+.pagination {
+    display: inline-block;
+  }
+  
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+  }
+  
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+  
+  .pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  
+  .pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+.grade-rank{
+    color: blue;
+    font-weight: bold;
+}
