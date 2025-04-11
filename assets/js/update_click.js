@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", function(){
             const id = button.getAttribute("data-id");
             console.info(id);
-            window.location.assign(`pages/update.php?id=${encodeURIComponent(id)}`);
+            window.location.assign(`index.php?id=${encodeURIComponent(id)}`);
         })
 
     })

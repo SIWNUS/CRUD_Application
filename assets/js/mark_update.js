@@ -71,7 +71,7 @@ document.getElementById('markForm').addEventListener("submit", function(e){
     .then(data => {
         if (data.success){
             alert(data.success);
-            window.location.reload();
+            window.location.assign("../pages/marksheet.php");
         } else {
             alert(data.error);
         }

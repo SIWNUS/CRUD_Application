@@ -1,10 +1,46 @@
 <?php 
-include("../includes/header.php");
-include("../config/db.php");
+session_start();
+include __DIR__ . "/../includes/header.php";   
+include __DIR__ . "/../config/db.php";  
 
-$sql = "SELECT id, name FROM reg_tab;";
-$stmt = $conn->query($sql);
-$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (isset(($_GET["id"]))){
+    $id = (int) $_GET["id"];
+
+    
+    $sql = "
+    SELECT m.*, r.name 
+    FROM marks_tab m 
+    JOIN reg_tab r ON m.reg_id = r.id 
+    WHERE m.id = :id
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $mark_row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$mark_row) {
+    echo "User not found.";
+    exit;
+    }
+
+    $_SESSION['marks_id'] = $mark_row["id"];
+    $reg_name = $mark_row["name"];
+    $eng = $mark_row["eng"];
+    $tam = $mark_row["tam"];
+    $math = $mark_row["math"];
+    $sci = $mark_row["sci"];
+    $soc = $mark_row["soc"];
+    $tot = $mark_row["total"];
+
+    // Fetch all names for the dropdown
+    $nameStmt = $conn->query("SELECT id, name FROM reg_tab");
+    $nameList = $nameStmt->fetchAll(PDO::FETCH_ASSOC);
+
+} else {
+    $sql = "SELECT id, name FROM reg_tab;";
+    $stmt = $conn->query($sql);
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $limit = 3;
@@ -48,12 +84,26 @@ foreach ($rankEligible as $entry) {
 <div>
     <form id="markForm" method="post">
         <div class="form_fields">
+        <input type="hidden" id="id" value="<?php echo $id ? $id : ''; ?>">
             <label class="label" for="pname">Name</label>
             <select name="pname" id="pname">
                 <option value="" disabled selected>Select your name</option>
-                <?php foreach($row as $data): ?>
-                <option value="<?php echo htmlspecialchars($data['name']); ?>"><?php echo htmlspecialchars($data['name']); ?></option>
-                <?php endforeach; ?>
+                <?php 
+                    if ($id){
+                ?>
+                    <?php foreach ($nameList as $data): ?>
+                        <option value="<?php echo htmlspecialchars($data['name']); ?>" 
+                            <?php echo ($data['name'] === $reg_name) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($data['name']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php 
+                    } else {
+                ?>
+                    <?php foreach($row as $data): ?>
+                        <option value="<?php echo htmlspecialchars($data['name']); ?>"><?php echo htmlspecialchars($data['name']); ?></option>
+                    <?php endforeach; ?>
+                <?php } ?>
             </select>
         </div>
 
@@ -67,7 +117,7 @@ foreach ($rankEligible as $entry) {
         ];
 
         foreach ($subjects as $key => $label): 
-            $value = $key;
+            $value = isset($$key) ? $$key : '';
         ?>
             <div class="form_fields">
                 <label class="label" for="<?php echo $key; ?>"><?php echo $label; ?></label>
@@ -80,10 +130,14 @@ foreach ($rankEligible as $entry) {
 
         <div class="form_fields">
             <label class="label" for="total">Total Marks</label>
-            <input type="number" name="tot_mark" id="tot_mark" class="total" readonly>
+            <input type="number" name="tot_mark" id="tot_mark" class="total" readonly value="<?php echo htmlspecialchars($tot) ? $tot : ''; ?>">
         </div>
         <div>
-            <input type="submit" value="submit" class="submit">
+            <?php if (!isset($id)): ?>
+                <input type="submit" value="submit" class="submit">
+            <?php else : ?>
+                <input type="submit" value="update" class="submit">
+            <?php endif; ?>
         </div>
     </form>
 </div>
